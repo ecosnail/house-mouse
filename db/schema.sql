@@ -1,0 +1,38 @@
+BEGIN TRANSACTION;
+CREATE TABLE "Measure" (
+	`MeasureId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	`CounterId`	INTEGER NOT NULL,
+	`MeasureTime`	INTEGER,
+	`InputId`	INTEGER NOT NULL,
+	`MeasureValue`	REAL NOT NULL
+);
+CREATE TABLE "InputTool" (
+	`ToolId`	INTEGER,
+	`ToolLabel`	TEXT NOT NULL UNIQUE,
+	`ToolName`	TEXT NOT NULL,
+	`ToolDescription`	TEXT,
+	PRIMARY KEY(ToolId)
+);
+CREATE TABLE "Input" (
+	`InputId`	INTEGER PRIMARY KEY AUTOINCREMENT,
+	`ToolId`	INTEGER NOT NULL,
+	`InputTime`	INTEGER NOT NULL
+);
+CREATE TABLE "Expense" (
+	`ExpenseId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	`Name`	TEXT NOT NULL
+);
+CREATE TABLE "CounterExpense" (
+	`CounterId`	INTEGER NOT NULL,
+	`ExpenseId`	INTEGER NOT NULL,
+	PRIMARY KEY(CounterId,ExpenseId),
+	FOREIGN KEY(`CounterId`) REFERENCES `Counter`(`CounterId`),
+	FOREIGN KEY(`ExpenseId`) REFERENCES Expense(ExpenseId)
+);
+CREATE TABLE "Counter" (
+	`CounterId`	INTEGER NOT NULL,
+	`CounterName`	TEXT NOT NULL,
+	`CounterLabel`	TEXT UNIQUE,
+	PRIMARY KEY(CounterId)
+);
+COMMIT;
